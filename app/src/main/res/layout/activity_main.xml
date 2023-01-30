@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/genreListInnerConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.MainActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent="0.02" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="0dp"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.015" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="0dp"
+            app:layout_constraintGuide_percent="0.97" />
+
+
+        <TextView
+            android:id="@+id/genreListTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_genre"
+            android:textColor="#fff"
+            style="@style/TextAppearance.MaterialComponents.Headline3"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="@id/guidelineTop"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/genreListRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidelineRight"
+            app:layout_constraintTop_toBottomOf="@id/genreListTitle"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/layout_genre_list_item" />
+
+        <Button
+            android:id="@+id/genreListExpandButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_want_more"
+            style="@style/Widget.MaterialComponents.Button"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/genreListRecyclerView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

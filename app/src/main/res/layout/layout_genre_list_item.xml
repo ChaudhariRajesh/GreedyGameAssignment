@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/cardViewGenreListParent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="3dp"
+    app:cardElevation="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/cardViewGenreListBackgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/genre"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/cardViewGenreListItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_title"
+            android:gravity="center"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            android:padding="3dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardViewGenreListBackgroundImageView"
+            app:layout_constraintLeft_toLeftOf="@id/cardViewGenreListBackgroundImageView"
+            app:layout_constraintRight_toRightOf="@id/cardViewGenreListBackgroundImageView"
+            app:layout_constraintTop_toTopOf="@+id/cardViewGenreListBackgroundImageView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

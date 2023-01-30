@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GreedyGameAssignment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_genre">Genre</string>
+    <string name="text_want_more">Want More..</string>
+    <string name="text_title">Title</string>
+    <string name="text_subtitle">Subtitle</string>
+    <string name="text_playcount">Playcount</string>
+    <string name="text_followers">Followers</string>
+    <string name="text_top_tracks">Top Tracks</string>
+    <string name="text_top_albums">Top Albums</string>
+    <string name="text_description_not_found">No Description Found</string>
+    <string name="text_not_found">Not Found</string>
+</resources>
