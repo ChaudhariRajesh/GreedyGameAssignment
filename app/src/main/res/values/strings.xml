@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GreedyGameAssignment</string>
+    <string name="app_name">MusicWiki</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="text_genre">Genre</string>
     <string name="text_want_more">Want More..</string>
