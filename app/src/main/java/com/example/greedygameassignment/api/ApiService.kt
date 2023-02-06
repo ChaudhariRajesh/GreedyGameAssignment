@@ -32,6 +32,12 @@ interface ApiService {
         @Query("album") album: String
     ): Response<AlbumInfoResponse>
 
+    @GET("?method=track.getInfo&api_key=${apiKey}&format=json")
+    suspend fun getTrackInfo(
+        @Query("artist") artist: String,
+        @Query("track") track: String
+    ): Response<TrackInfoResponse>
+
     @GET("?method=artist.getinfo&api_key=${apiKey}&format=json")
     suspend fun getArtistInfo(@Query("artist") artist: String): Response<ArtistInfoResponse>
 

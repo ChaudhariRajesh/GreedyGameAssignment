@@ -12,7 +12,7 @@ import javax.inject.Inject
 //ViewModel for the AlbumRepository
 
 @HiltViewModel
-class AlbumInfoViewModel @Inject constructor ( private val repository: AlbumRepository): ViewModel() {
+class AlbumInfoViewModel @Inject constructor ( private val repository: AlbumRepository ): ViewModel() {
 
     private val _albumInfo = MutableLiveData<Resource<AlbumInfoResponse>>()
     val albumInfo: LiveData<Resource<AlbumInfoResponse>>

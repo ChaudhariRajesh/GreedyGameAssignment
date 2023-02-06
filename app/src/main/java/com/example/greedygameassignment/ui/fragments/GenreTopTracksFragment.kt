@@ -1,5 +1,6 @@
 package com.example.greedygameassignment.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import com.example.greedygameassignment.R
 import com.example.greedygameassignment.api.Resource
 import com.example.greedygameassignment.databinding.FragmentTrackBinding
 import com.example.greedygameassignment.api.model.GenreTopTracksResponse
+import com.example.greedygameassignment.ui.ArtistInfoActivity
+import com.example.greedygameassignment.ui.TrackInfoActivity
 import com.example.greedygameassignment.ui.adapters.GenreTopAlbumsArtistsTracksGenericRecyclerAdapter
 import com.example.greedygameassignment.ui.adapters.SimpleRecyclerBindingInterface
 import com.example.greedygameassignment.utility.GenreNameProvider
@@ -39,8 +42,8 @@ class GenreTopTracksFragment : Fragment() {
     //ViewModel object
     private val viewModel : FragmentsViewModel by viewModels()
 
-    //Stores the object list of Tracks
-    private lateinit var trackList : GenreTopTracksResponse
+//    //Stores the object list of Tracks
+//    private lateinit var trackList : GenreTopTracksResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,11 +91,20 @@ class GenreTopTracksFragment : Fragment() {
                     Toast.makeText(context, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    it.data?.let { it2 -> trackList = it2 }
+//                    it.data?.let { it2 -> trackList = it2 }
 
-                    val adapterForTracks = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopTracksResponse>(trackList, trackList.tracks.track.size,
+                    val adapterForTracks = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopTracksResponse>(it.data!!, it.data.tracks.track.size,
                         R.layout.layout_card_item, bindingInterface)
                     trackBinding.trackFragmentRecyclerView.adapter = adapterForTracks
+
+                    adapterForTracks.onItemClicked = { it2, position ->
+                        val newIntent = Intent(context, TrackInfoActivity::class.java)
+                        val artistName = it2.tracks.track[position].artist.name
+                        val trackName = it2.tracks.track[position].name
+                        newIntent.putExtra("artistName", artistName)
+                        newIntent.putExtra("trackName", trackName)
+                        startActivity(newIntent)
+                    }
 
                 }
                 is Resource.Error -> {

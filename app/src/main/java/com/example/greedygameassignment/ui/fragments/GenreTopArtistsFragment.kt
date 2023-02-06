@@ -41,8 +41,8 @@ class GenreTopArtistsFragment : Fragment() {
     //ViewModel object
     private val viewModel : FragmentsViewModel by viewModels()
 
-    //Stores the object list of Artists
-    private lateinit var artistList : GenreTopArtistsResponse
+//    //Stores the object list of Artists
+//    private lateinit var artistList : GenreTopArtistsResponse
 
     //Instance of generic recycler adapter for this class
     private lateinit var adapterForArtists : GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopArtistsResponse>
@@ -92,9 +92,9 @@ class GenreTopArtistsFragment : Fragment() {
                     Toast.makeText(context, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    it.data?.let { it2 -> artistList = it2 }
+//                    it.data?.let { it2 -> artistList = it2 }
 
-                    adapterForArtists = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopArtistsResponse>(artistList, artistList.topartists.artist.size,
+                    adapterForArtists = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopArtistsResponse>(it.data!!, it.data.topartists.artist.size,
                         R.layout.layout_card_item, bindingInterface)
                     artistBinding.artistFragmentRecyclerView.adapter = adapterForArtists
 

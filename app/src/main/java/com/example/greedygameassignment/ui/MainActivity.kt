@@ -26,16 +26,16 @@ Main Activity class of the project
 class MainActivity : AppCompatActivity() {
 
     //Data Binding
-    private lateinit var genreListBinding : ActivityMainBinding
+    private lateinit var genreListBinding: ActivityMainBinding
 
-    //Stores the genre object list
-    private lateinit var genreList: GenreListResponse
+//    //Stores the genre object list
+//    private lateinit var genreList: GenreListResponse
 
     //Genre list recycler adapter
     private lateinit var genreListAdapter: GenreListRecyclerAdapter
 
     //ViewModel
-    private val mainViewModel : MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,16 +53,24 @@ class MainActivity : AppCompatActivity() {
 
         //Observe the live data
         mainViewModel.genreList.observe(this, {
-            when(it)
-            {
+            when (it) {
                 is Resource.Loading -> {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_LONG).show()
                 }
                 is Resource.Success -> {
-                    it.data?.let { it2 -> genreList = it2 }
-                    genreListAdapter = GenreListRecyclerAdapter(genreList, 0, 9)
+//                    it.data?.let { it2 -> genreList = it2 }
+                    genreListAdapter = GenreListRecyclerAdapter(it.data!!, 0, 9)
                     genreListBinding.genreListRecyclerView.adapter = genreListAdapter
                     addListeners()
+
+                    //Add the click listener on the expand button
+                    //When the button is clicked, complete list of genres is displayed and the button is removed from the view
+                    genreListBinding.genreListExpandButton.setOnClickListener { it2 ->
+                        genreListBinding.genreListExpandButton.visibility = View.INVISIBLE
+                        genreListAdapter = GenreListRecyclerAdapter(it.data, 0, it.data.toptags.tag.size)
+                        genreListBinding.genreListRecyclerView.adapter = genreListAdapter
+                        addListeners()
+                    }
                 }
                 is Resource.Error -> {
                     genreListBinding.genreListExpandButton.visibility = View.INVISIBLE
@@ -72,20 +80,11 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        //Add the click listener on the expand button
-        //When the button is clicked, complete list of genres is displayed and the button is removed from the view
-        genreListBinding.genreListExpandButton.setOnClickListener {
-            genreListBinding.genreListExpandButton.visibility = View.INVISIBLE
-            genreListAdapter = GenreListRecyclerAdapter(genreList, 0, genreList.toptags.tag.size)
-            genreListBinding.genreListRecyclerView.adapter = genreListAdapter
-            addListeners()
-        }
 
     }
 
-    //Adds the listened on the recycler items
-    private fun addListeners()
-    {
+    //Adds the listener on the recycler items
+    private fun addListeners() {
         genreListAdapter.onItemClicked = { it2 ->
             val newIntent = Intent(this@MainActivity, GenreInfoActivity::class.java)
             val genreName = it2.name

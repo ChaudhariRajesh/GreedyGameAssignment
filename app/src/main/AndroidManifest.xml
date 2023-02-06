@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GreedyGameAssignment"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".ui.TrackInfoActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.ArtistInfoActivity"
             android:exported="false" />
@@ -23,7 +25,6 @@
         <activity
             android:name=".ui.GenreInfoActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -32,9 +33,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
     </application>
 
 </manifest>

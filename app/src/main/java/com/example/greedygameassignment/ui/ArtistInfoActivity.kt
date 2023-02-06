@@ -44,14 +44,14 @@ class ArtistInfoActivity : AppCompatActivity() {
     //Stores the artist name
     private lateinit var artistName : String
 
-    //Stores the object list of artist information
-    private lateinit var artistInfo : ArtistInfoResponse
+//    //Stores the object list of artist information
+//    private lateinit var artistInfo : ArtistInfoResponse
 
     //Stores the object list of tracks
     private lateinit var trackList : ArtistTopTracksResponse
 
-    //Stores the object list of albums
-    private lateinit var albumList : ArtistTopAlbumsResponse
+//    //Stores the object list of albums
+//    private lateinit var albumList : ArtistTopAlbumsResponse
 
     //Generic recycler adapters for tracks and album list
     private lateinit var adapterForTracks : ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopTracksResponse>
@@ -86,9 +86,9 @@ class ArtistInfoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    it.data?.let { it2 -> artistInfo = it2 }
-                    setData(artistInfo)
-                    ImageProvider.setImageFromUrl(this, artistInfo.artist.image[1].text,
+//                    it.data?.let { it2 -> artistInfo = it2 }
+                    setData(it.data!!)
+                    ImageProvider.setImageFromUrl(this, it.data.artist.image[1].text,
                         R.drawable.artist_banner, artistInfoBinding.artistInfoImageView)
 
                 }
@@ -128,7 +128,7 @@ class ArtistInfoActivity : AppCompatActivity() {
         //Call the viewModel method to get tracks list
         mainViewModel.getArtistTopTracks(artistName)
 
-        //Onserve the live data
+        //Observe the live data
         mainViewModel.artistTopTracks.observe(this, {
             when(it)
             {
@@ -136,11 +136,20 @@ class ArtistInfoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    it.data?.let { it2 -> trackList = it2 }
+//                    it.data?.let { it2 -> trackList = it2 }
 
-                    adapterForTracks = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopTracksResponse>(trackList, trackList.toptracks.track.size,
+                    adapterForTracks = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopTracksResponse>(it.data!!, it.data.toptracks.track.size,
                         R.layout.layout_card_item, bindingInterfaceTracks)
                     artistInfoBinding.artistDetailsTopTracksRecyclerView.adapter = adapterForTracks
+
+                    adapterForTracks.onItemClicked = { it2, position ->
+                        val newIntent = Intent(this, TrackInfoActivity::class.java)
+                        val artistName = it2.toptracks.track[position].artist.name
+                        val trackName = it2.toptracks.track[position].name
+                        newIntent.putExtra("artistName", artistName)
+                        newIntent.putExtra("trackName", trackName)
+                        startActivity(newIntent)
+                    }
 
                 }
                 is Resource.Error -> {
@@ -171,7 +180,7 @@ class ArtistInfoActivity : AppCompatActivity() {
                 albumTitleTextView.text = item.topalbums.album[position].name
                 albumArtistNameTextView.text = item.topalbums.album[position].artist.name
                 if(item.topalbums.album[position].image.isNotEmpty()) {
-                    ImageProvider.setImageFromUrl(this@ArtistInfoActivity, albumList.topalbums.album[position].image[0].text, R.drawable.album, albumImage)
+                    ImageProvider.setImageFromUrl(this@ArtistInfoActivity, item.topalbums.album[position].image[0].text, R.drawable.album, albumImage)
                 }
 
             }
@@ -187,12 +196,20 @@ class ArtistInfoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    it.data?.let { it2 -> albumList = it2 }
+//                    it.data?.let { it2 -> albumList = it2 }
 
-                    adapterForAlbums = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopAlbumsResponse>(albumList, albumList.topalbums.album.size,
+                    adapterForAlbums = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopAlbumsResponse>(it.data!!, it.data.topalbums.album.size,
                         R.layout.layout_card_item, bindingInterfaceAlbums)
                     artistInfoBinding.artistDetailsTopAlbumsRecyclerView.adapter = adapterForAlbums
 
+                    adapterForAlbums.onItemClicked = { it2, position ->
+                        val newIntent = Intent(this, AlbumInfoActivity::class.java)
+                        val artistName = it2.topalbums.album[position].artist.name
+                        val albumName = it2.topalbums.album[position].name
+                        newIntent.putExtra("artistName", artistName)
+                        newIntent.putExtra("albumName", albumName)
+                        startActivity(newIntent)
+                    }
                 }
                 is Resource.Error -> {
                     Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()

@@ -1,5 +1,6 @@
 package com.example.greedygameassignment.repositories
 
+import android.util.Log
 import com.example.greedygameassignment.api.ApiService
 import com.example.greedygameassignment.api.Resource
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +33,7 @@ open class DataRepository {
             } catch (e: IOException) {
                 Resource.Error("Please check your network connection")
             } catch (e: Exception) {
+                Log.i("Panksh", e.message.toString())
                 Resource.Error("Something went wrong")
             }
         }

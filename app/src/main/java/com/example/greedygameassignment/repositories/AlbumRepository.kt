@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 //Repository class, provides data related to Albums
 
-class AlbumRepository @Inject constructor (private val apiService: ApiService) : DataRepository(){
+class AlbumRepository @Inject constructor ( private val apiService: ApiService ) : DataRepository(){
 
     suspend fun getAlbumInfo(artist : String, album : String) : Resource<AlbumInfoResponse> {
         return genericApiCall { apiService.getAlbumInfo(artist, album) }

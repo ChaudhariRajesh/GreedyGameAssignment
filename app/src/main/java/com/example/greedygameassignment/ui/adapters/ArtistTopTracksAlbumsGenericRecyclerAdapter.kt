@@ -17,6 +17,7 @@ class ArtistTopTracksAlbumsGenericRecyclerAdapter <T : Any>
      private val bindingInterface: SimpleRecyclerBindingInterface<T>)
     : RecyclerView.Adapter<ArtistTopTracksAlbumsGenericRecyclerAdapter.SimpleViewHolder>() {
 
+    var onItemClicked : ((T, position : Int) -> Unit)? = null
 
     class SimpleViewHolder (val view : View) : RecyclerView.ViewHolder(view)
     {
@@ -37,9 +38,11 @@ class ArtistTopTracksAlbumsGenericRecyclerAdapter <T : Any>
     }
 
     override fun onBindViewHolder(holder: ArtistTopTracksAlbumsGenericRecyclerAdapter.SimpleViewHolder, position: Int) {
-
         val item = dataList
         holder.bind(item, position, bindingInterface)
+        holder.itemView.setOnClickListener{
+            onItemClicked?.invoke(dataList, position)
+        }
     }
 
     override fun getItemCount(): Int {

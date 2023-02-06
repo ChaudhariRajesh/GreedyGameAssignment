@@ -39,8 +39,8 @@ class GenreTopAlbumsFragment : Fragment() {
     //ViewModel object
     private val viewModel : FragmentsViewModel by viewModels()
 
-    //Stores the object list of albums
-    private lateinit var albumList : GenreTopAlbumsResponse
+//    //Stores the object list of albums
+//    private lateinit var albumList : GenreTopAlbumsResponse
 
     //Instance of generic recycler adapter for this fragment
     private lateinit var adapterForAlbums : GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopAlbumsResponse>
@@ -85,15 +85,14 @@ class GenreTopAlbumsFragment : Fragment() {
                     Toast.makeText(context, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    it.data?.let { it2 -> albumList = it2 }
+//                    it.data?.let { it2 -> albumList = it2 }
 
-                    adapterForAlbums = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopAlbumsResponse>(albumList, albumList.albums.album.size,
+                    adapterForAlbums = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopAlbumsResponse>(it.data!!, it.data.albums.album.size,
                         R.layout.layout_card_item, bindingInterface)
                     binding.albumFragmentRecyclerView.adapter = adapterForAlbums
 
                     //Set the click listener on the recycler view items
                     adapterForAlbums.onItemClicked = { it2, position ->
-
                         //Start the Album Information when particular item is clicked
                         val newIntent = Intent(context, AlbumInfoActivity::class.java)
                         val artistName = it2.albums.album[position].artist.name

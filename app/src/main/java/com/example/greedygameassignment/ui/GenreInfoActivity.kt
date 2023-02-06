@@ -36,18 +36,18 @@ class GenreInfoActivity : AppCompatActivity() {
         genreInfoBinding = ActivityGenreInfoBinding.inflate(layoutInflater)
         setContentView(genreInfoBinding.root)
 
-        //Provide the lifecycleowner to the data binding class
-        genreInfoBinding.lifecycleOwner = this
-
-
-        //Provide the viewModel class to data binding class to display the data
-        genreInfoBinding.viewmodel = mainViewModel
-
         //Get the genre name from the previous activity
         genreName = intent.getStringExtra("genreName").toString()
 
         //Set the genre name in the object to be used by the fragments
         GenreNameProvider.setGenreName(genreName)
+
+        //Provide the lifecycleowner to the data binding class
+        genreInfoBinding.lifecycleOwner = this
+
+        //Provide the viewModel class to data binding class to display the data
+        genreInfoBinding.viewmodel = mainViewModel
+
 
         //Add the tabs to the tab layout
         genreInfoBinding.tabLayout.addTab(genreInfoBinding.tabLayout.newTab().setText("Albums"))
