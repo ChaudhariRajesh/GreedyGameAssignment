@@ -1,10 +1,8 @@
-# GreedyGameAssignment
+# MusicWiki
 
 <a href="https://drive.google.com/file/d/1MW-J2iOqTWQdCzMgkQ0IqK0QqvEtajQF/view?usp=sharing">Demonstration</a>
 
-The MusicWiki app contains information about music, including information of genres, artists, and albums, etc.
-
-The app fulfills all the requirements specified in the assignment.
+The MusicWiki app contains information about music, including information of genres, artists, albums and tracks, etc.
 
 The application is based on MVVM (Model-View-ViewModel) architecture, which is suitable for such type of app and it is also recommended by Google.
 Seperate viewmodels and repositories have been created for every activity for better seperation of concerns.
