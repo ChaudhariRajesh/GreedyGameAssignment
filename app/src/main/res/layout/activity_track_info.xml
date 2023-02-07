@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="3dp"
                 android:paddingEnd="3dp"
-                android:text="@{viewmodel.trackInfo.data.track.duration}"
+                android:text="@{BindingAdapters.milisecondsToTime(viewmodel.trackInfo.data.track.duration) ?? `00`}"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 style="@style/TextAppearance.Material3.BodyMedium"
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="3dp"
                 android:paddingEnd="3dp"
-                android:text='@{"Album " + viewmodel.trackInfo.data.track.album.title}'
+                android:text='@{"Album: " + viewmodel.trackInfo.data.track.album.title}'
                 android:textStyle="bold"
                 style="@style/TextAppearance.Material3.BodyMedium"
                 app:layout_constraintStart_toEndOf="@id/guidelineLeft"

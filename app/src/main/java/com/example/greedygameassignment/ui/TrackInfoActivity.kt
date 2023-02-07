@@ -29,6 +29,7 @@ class TrackInfoActivity : AppCompatActivity() {
     //Stores the album name
     private lateinit var trackName : String
 
+    //ViewModel
     private val trackViewModel : TrackInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,8 +75,11 @@ class TrackInfoActivity : AppCompatActivity() {
     private fun setData(trackInfo : TrackInfoResponse)
     {
         //Set the image to the provided image view using the static class object
-        ImageProvider.setImageFromUrl(this, trackInfo.track.album.image[2].text,
-            R.drawable.track, trackInfoBinding.trackDetailsImageView)
+        if(! trackInfo.track.album.image[2].text.isNullOrEmpty())
+        {
+            ImageProvider.setImageFromUrl(this, trackInfo.track.album.image[2].text,
+                R.drawable.track, trackInfoBinding.trackDetailsImageView)
+        }
 
         //Add the chips (to show tags) to the horizontal list view and add the click listener on it
         for (element in trackInfo.track.toptags.tag)
