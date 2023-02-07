@@ -4,6 +4,8 @@
 
 The MusicWiki app contains information about music, including information of genres, artists, albums and tracks, etc.
 
+The app used the <a href="https://www.last.fm/api">Last.fm API</a> to get the required data.
+
 The application is based on MVVM (Model-View-ViewModel) architecture, which is suitable for such type of app and it is also recommended by Google.
 Seperate viewmodels and repositories have been created for every activity for better seperation of concerns.
 
