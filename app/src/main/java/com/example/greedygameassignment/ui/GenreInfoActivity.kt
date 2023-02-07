@@ -30,7 +30,6 @@ class GenreInfoActivity : AppCompatActivity() {
     //Stores the genre name
     private lateinit var genreName : String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         genreInfoBinding = ActivityGenreInfoBinding.inflate(layoutInflater)

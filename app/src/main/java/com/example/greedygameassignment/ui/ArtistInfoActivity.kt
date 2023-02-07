@@ -44,14 +44,8 @@ class ArtistInfoActivity : AppCompatActivity() {
     //Stores the artist name
     private lateinit var artistName : String
 
-//    //Stores the object list of artist information
-//    private lateinit var artistInfo : ArtistInfoResponse
-
     //Stores the object list of tracks
     private lateinit var trackList : ArtistTopTracksResponse
-
-//    //Stores the object list of albums
-//    private lateinit var albumList : ArtistTopAlbumsResponse
 
     //Generic recycler adapters for tracks and album list
     private lateinit var adapterForTracks : ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopTracksResponse>
@@ -86,7 +80,6 @@ class ArtistInfoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-//                    it.data?.let { it2 -> artistInfo = it2 }
                     setData(it.data!!)
                     ImageProvider.setImageFromUrl(this, it.data.artist.image[1].text,
                         R.drawable.artist_banner, artistInfoBinding.artistInfoImageView)
@@ -136,7 +129,6 @@ class ArtistInfoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-//                    it.data?.let { it2 -> trackList = it2 }
 
                     adapterForTracks = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopTracksResponse>(it.data!!, it.data.toptracks.track.size,
                         R.layout.layout_card_item, bindingInterfaceTracks)
@@ -196,7 +188,6 @@ class ArtistInfoActivity : AppCompatActivity() {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-//                    it.data?.let { it2 -> albumList = it2 }
 
                     adapterForAlbums = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopAlbumsResponse>(it.data!!, it.data.topalbums.album.size,
                         R.layout.layout_card_item, bindingInterfaceAlbums)

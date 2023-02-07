@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity() {
     //Data Binding
     private lateinit var genreListBinding: ActivityMainBinding
 
-//    //Stores the genre object list
-//    private lateinit var genreList: GenreListResponse
 
     //Genre list recycler adapter
     private lateinit var genreListAdapter: GenreListRecyclerAdapter
@@ -58,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Getting Data", Toast.LENGTH_LONG).show()
                 }
                 is Resource.Success -> {
-//                    it.data?.let { it2 -> genreList = it2 }
                     genreListAdapter = GenreListRecyclerAdapter(it.data!!, 0, 9)
                     genreListBinding.genreListRecyclerView.adapter = genreListAdapter
                     addListeners()

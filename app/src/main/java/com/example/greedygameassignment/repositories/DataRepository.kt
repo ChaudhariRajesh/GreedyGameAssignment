@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import java.lang.IllegalStateException
 
 //Base repository class, provides a generic method to call the api methods, helps to avoid boilerplate code
 
@@ -29,12 +30,14 @@ open class DataRepository {
                     Resource.Error(response.code().toString() + " " + response.message() ?: "Something went wrong")
                 }
             } catch (e: HttpException) {
-                Resource.Error(e.message ?: "Something went wrong")
+                Resource.Error(e.message ?: "There is some problem : ${e.message}")
             } catch (e: IOException) {
                 Resource.Error("Please check your network connection")
-            } catch (e: Exception) {
-                Log.i("Panksh", e.message.toString())
-                Resource.Error("Something went wrong")
+            } catch(e : IllegalStateException) {
+                Resource.Error("There is some problem : ${e.message}")
+            }
+            catch (e: Exception) {
+                Resource.Error("Something went wrong : ${e.message}")
             }
         }
     }
