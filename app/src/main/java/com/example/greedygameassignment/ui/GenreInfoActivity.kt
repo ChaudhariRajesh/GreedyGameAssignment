@@ -2,12 +2,16 @@ package com.example.greedygameassignment.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.example.greedygameassignment.api.Resource
 import com.example.greedygameassignment.ui.adapters.FragmentAdapter
 import com.example.greedygameassignment.databinding.ActivityGenreInfoBinding
 import com.example.greedygameassignment.utility.GenreNameProvider
 import com.example.greedygameassignment.viewmodels.GenreInfoViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -80,6 +84,19 @@ class GenreInfoActivity : AppCompatActivity() {
 
         //Call the viewModel method to get genre information. It will be set automatically to the views using data binding
         mainViewModel.getGenreInfo(genreName)
+
+        mainViewModel.genreInfo.observe(this, {
+            when(it)
+            {
+                is Resource.Loading -> {
+                }
+                is Resource.Success -> {
+                }
+                is Resource.Error -> {
+                    mainViewModel.getGenreInfo(genreName)
+                }
+            }
+        })
     }
 
 }

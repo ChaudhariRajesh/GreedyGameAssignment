@@ -20,6 +20,7 @@ import com.example.greedygameassignment.ui.adapters.SimpleRecyclerBindingInterfa
 import com.example.greedygameassignment.utility.GenreNameProvider
 import com.example.greedygameassignment.utility.ImageProvider
 import com.example.greedygameassignment.viewmodels.FragmentsViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -38,9 +39,6 @@ class GenreTopAlbumsFragment : Fragment() {
 
     //ViewModel object
     private val viewModel : FragmentsViewModel by viewModels()
-
-//    //Stores the object list of albums
-//    private lateinit var albumList : GenreTopAlbumsResponse
 
     //Instance of generic recycler adapter for this fragment
     private lateinit var adapterForAlbums : GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopAlbumsResponse>
@@ -82,11 +80,11 @@ class GenreTopAlbumsFragment : Fragment() {
             when(it)
             {
                 is Resource.Loading -> {
-                    Toast.makeText(context, "Getting Data", Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
-//                    it.data?.let { it2 -> albumList = it2 }
 
+                    binding.progressBar.visibility = View.INVISIBLE
                     adapterForAlbums = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopAlbumsResponse>(it.data!!, it.data.albums.album.size,
                         R.layout.layout_card_item, bindingInterface)
                     binding.albumFragmentRecyclerView.adapter = adapterForAlbums
@@ -103,7 +101,7 @@ class GenreTopAlbumsFragment : Fragment() {
                     }
                 }
                 is Resource.Error -> {
-                        Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { viewModel.getGenreTopAlbums(genreName) }).show()
                 }
             }
 

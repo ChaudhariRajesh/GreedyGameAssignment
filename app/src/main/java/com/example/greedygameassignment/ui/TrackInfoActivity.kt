@@ -3,6 +3,7 @@ package com.example.greedygameassignment.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.greedygameassignment.R
@@ -15,6 +16,7 @@ import com.example.greedygameassignment.utility.ImageProvider
 import com.example.greedygameassignment.viewmodels.AlbumInfoViewModel
 import com.example.greedygameassignment.viewmodels.TrackInfoViewModel
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,17 +57,17 @@ class TrackInfoActivity : AppCompatActivity() {
             when (it)
             {
                 is Resource.Loading -> {
-                    Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
+                    trackInfoBinding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
+                    trackInfoBinding.progressBar.visibility = View.INVISIBLE
                     it.data?.let { it2 ->
                         //Set the data to corresponding views
                         setData(it2)
                     }
                 }
                 is Resource.Error -> {
-                    it.errorMessage
-                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(trackInfoBinding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { trackViewModel.getTrackInfo(artistName, trackName) }).show()
                 }
             }
         })

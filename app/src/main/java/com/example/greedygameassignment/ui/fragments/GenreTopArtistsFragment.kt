@@ -22,6 +22,7 @@ import com.example.greedygameassignment.ui.adapters.SimpleRecyclerBindingInterfa
 import com.example.greedygameassignment.utility.GenreNameProvider
 import com.example.greedygameassignment.utility.ImageProvider
 import com.example.greedygameassignment.viewmodels.FragmentsViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -40,9 +41,6 @@ class GenreTopArtistsFragment : Fragment() {
 
     //ViewModel object
     private val viewModel : FragmentsViewModel by viewModels()
-
-//    //Stores the object list of Artists
-//    private lateinit var artistList : GenreTopArtistsResponse
 
     //Instance of generic recycler adapter for this class
     private lateinit var adapterForArtists : GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopArtistsResponse>
@@ -89,10 +87,10 @@ class GenreTopArtistsFragment : Fragment() {
             when(it)
             {
                 is Resource.Loading -> {
-                    Toast.makeText(context, "Getting Data", Toast.LENGTH_SHORT).show()
+                    artistBinding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
-//                    it.data?.let { it2 -> artistList = it2 }
+                    artistBinding.progressBar.visibility = View.INVISIBLE
 
                     adapterForArtists = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopArtistsResponse>(it.data!!, it.data.topartists.artist.size,
                         R.layout.layout_card_item, bindingInterface)
@@ -108,12 +106,10 @@ class GenreTopArtistsFragment : Fragment() {
 
                 }
                 is Resource.Error -> {
-                    Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(artistBinding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { viewModel.getGenreTopArtists(genreName) }).show()
                 }
             }
         })
-
-
         return view
     }
 

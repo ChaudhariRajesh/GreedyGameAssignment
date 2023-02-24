@@ -44,6 +44,14 @@
             app:layout_constraintGuide_end="0dp"
             app:layout_constraintGuide_percent="0.97" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+            app:layout_constraintBottom_toTopOf="@id/guidelineBottom"/>
 
         <TextView
             android:id="@+id/genreListTitle"
@@ -78,7 +86,8 @@
             android:textColor="#fff"
             app:layout_constraintEnd_toStartOf="@id/guidelineRight"
             app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@id/genreListRecyclerView" />
+            app:layout_constraintTop_toBottomOf="@id/genreListRecyclerView"
+            android:visibility="invisible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

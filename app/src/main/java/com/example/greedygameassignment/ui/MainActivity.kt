@@ -1,5 +1,6 @@
 package com.example.greedygameassignment.ui
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.example.greedygameassignment.databinding.ActivityMainBinding
 import com.example.greedygameassignment.api.model.GenreListResponse
 import com.example.greedygameassignment.ui.adapters.GenreTopAlbumsArtistsTracksGenericRecyclerAdapter
 import com.example.greedygameassignment.viewmodels.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -27,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     //Data Binding
     private lateinit var genreListBinding: ActivityMainBinding
-
 
     //Genre list recycler adapter
     private lateinit var genreListAdapter: GenreListRecyclerAdapter
@@ -49,13 +50,23 @@ class MainActivity : AppCompatActivity() {
         //Call the viewModel method to get the genre list
         mainViewModel.getGenreList()
 
+
         //Observe the live data
         mainViewModel.genreList.observe(this, {
             when (it) {
                 is Resource.Loading -> {
-                    Toast.makeText(this, "Getting Data", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(this, "Getting Data", Toast.LENGTH_LONG).show()
+                    //Show the progress bar while getting data
+                    genreListBinding.progressBar.visibility = View.VISIBLE
+                    //Hide the expand button while getting data
+                    genreListBinding.genreListExpandButton.visibility = View.INVISIBLE
                 }
                 is Resource.Success -> {
+                    //Make the progress bar invisible once data is available
+                    genreListBinding.progressBar.visibility = View.INVISIBLE
+                    //Make the button visible once data is available
+                    genreListBinding.genreListExpandButton.visibility = View.VISIBLE
+
                     genreListAdapter = GenreListRecyclerAdapter(it.data!!, 0, 9)
                     genreListBinding.genreListRecyclerView.adapter = genreListAdapter
                     addListeners()
@@ -71,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 is Resource.Error -> {
                     genreListBinding.genreListExpandButton.visibility = View.INVISIBLE
-                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_LONG).show()
+                    Snackbar.make(genreListBinding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { mainViewModel.getGenreList() }).show()
                 }
             }
 

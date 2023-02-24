@@ -24,6 +24,7 @@ import com.example.greedygameassignment.ui.adapters.SimpleRecyclerBindingInterfa
 import com.example.greedygameassignment.utility.ImageProvider
 import com.example.greedygameassignment.viewmodels.ArtistInfoViewModel
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
@@ -43,9 +44,6 @@ class ArtistInfoActivity : AppCompatActivity() {
 
     //Stores the artist name
     private lateinit var artistName : String
-
-    //Stores the object list of tracks
-    private lateinit var trackList : ArtistTopTracksResponse
 
     //Generic recycler adapters for tracks and album list
     private lateinit var adapterForTracks : ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopTracksResponse>
@@ -77,16 +75,16 @@ class ArtistInfoActivity : AppCompatActivity() {
             when(it)
             {
                 is Resource.Loading -> {
-                    Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
+                    artistInfoBinding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
+                    artistInfoBinding.progressBar.visibility = View.INVISIBLE
                     setData(it.data!!)
                     ImageProvider.setImageFromUrl(this, it.data.artist.image[1].text,
                         R.drawable.artist_banner, artistInfoBinding.artistInfoImageView)
-
                 }
                 is Resource.Error -> {
-                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(artistInfoBinding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { mainViewModel.getArtistInfo(artistName) }).show()
                 }
             }
         })
@@ -126,9 +124,11 @@ class ArtistInfoActivity : AppCompatActivity() {
             when(it)
             {
                 is Resource.Loading -> {
-                    Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
+                    artistInfoBinding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
+
+                    artistInfoBinding.progressBar.visibility = View.INVISIBLE
 
                     adapterForTracks = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopTracksResponse>(it.data!!, it.data.toptracks.track.size,
                         R.layout.layout_card_item, bindingInterfaceTracks)
@@ -145,7 +145,7 @@ class ArtistInfoActivity : AppCompatActivity() {
 
                 }
                 is Resource.Error -> {
-                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(artistInfoBinding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { mainViewModel.getArtistTopTracks(artistName) }).show()
                 }
             }
 
@@ -185,9 +185,10 @@ class ArtistInfoActivity : AppCompatActivity() {
             when(it)
             {
                 is Resource.Loading -> {
-                    Toast.makeText(this, "Getting Data", Toast.LENGTH_SHORT).show()
+                    artistInfoBinding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
+                    artistInfoBinding.progressBar.visibility = View.INVISIBLE
 
                     adapterForAlbums = ArtistTopTracksAlbumsGenericRecyclerAdapter<ArtistTopAlbumsResponse>(it.data!!, it.data.topalbums.album.size,
                         R.layout.layout_card_item, bindingInterfaceAlbums)
@@ -203,7 +204,7 @@ class ArtistInfoActivity : AppCompatActivity() {
                     }
                 }
                 is Resource.Error -> {
-                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(artistInfoBinding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { mainViewModel.getArtistTopAlbums(artistName) }).show()
                 }
             }
 

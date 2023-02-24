@@ -23,6 +23,7 @@ import com.example.greedygameassignment.ui.adapters.SimpleRecyclerBindingInterfa
 import com.example.greedygameassignment.utility.GenreNameProvider
 import com.example.greedygameassignment.utility.ImageProvider
 import com.example.greedygameassignment.viewmodels.FragmentsViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -41,9 +42,6 @@ class GenreTopTracksFragment : Fragment() {
 
     //ViewModel object
     private val viewModel : FragmentsViewModel by viewModels()
-
-//    //Stores the object list of Tracks
-//    private lateinit var trackList : GenreTopTracksResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,10 +86,10 @@ class GenreTopTracksFragment : Fragment() {
             when(it)
             {
                 is Resource.Loading -> {
-                    Toast.makeText(context, "Getting Data", Toast.LENGTH_SHORT).show()
+                    trackBinding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
-//                    it.data?.let { it2 -> trackList = it2 }
+                    trackBinding.progressBar.visibility = View.INVISIBLE
 
                     val adapterForTracks = GenreTopAlbumsArtistsTracksGenericRecyclerAdapter<GenreTopTracksResponse>(it.data!!, it.data.tracks.track.size,
                         R.layout.layout_card_item, bindingInterface)
@@ -108,7 +106,7 @@ class GenreTopTracksFragment : Fragment() {
 
                 }
                 is Resource.Error -> {
-                    Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(trackBinding.root, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE).setAction("Fixed it", View.OnClickListener { viewModel.getGenreTopTracks(genreName) }).show()
                 }
             }
         })
